@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 flag_force=0
 
 while getopts "f" flag; do
@@ -8,7 +10,7 @@ case ${flag} in
 esac
 done
 
-repo_hash=$(echo  -n $(git remote get-url origin) | sha256sum | head -c 40)
+repo_hash=$(echo  -n $(git remote get-url origin) | sha256sum | head -c 64)
 storage_dir="/tmp/pylessard_env/"
 mkdir -p "$storage_dir"
 cache_file="$storage_dir/$repo_hash"
