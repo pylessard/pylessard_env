@@ -2,8 +2,9 @@
 
 alias git-default-branch='get_default_branch.sh'    # Expected to be in PATH
 #alias git-default-branch='echo main'
+alias please='sudo !!'
 alias gau='git add -u'
-alias gcm='git commit -m'
+alias gcm='git commit -S -m'
 alias gp1='git push --set-upstream origin $(git branch --show-current)'
 alias gp='git push'
 alias gpf='git push --force'
@@ -23,3 +24,4 @@ alias gkb='git checkout -b'
 alias grh='git reset --hard'
 alias gkb='git checkout -b'
 alias grm1='git reset HEAD~1'
+alias git-recent-branches='git for-each-ref --sort=-committerdate refs/heads/ | sed -r "s/[0-9a-f]+\s*commit\s*refs\/heads\///" | less'
