@@ -5,7 +5,7 @@ set -euo pipefail
 INPUT="$1"
 INPUT_AUDIO="$2"
 DEFAULT_OUTPUT="injected/$(basename "$INPUT")"
-OUTPUT=${3:-"${DEFAULT_OUTPUTDEFAULT_OUTPUT}"}
+OUTPUT=${3:-"${DEFAULT_OUTPUT}"}
 
 AUDIO_DELAY="0"   # seconds (positive = shift forward, negative = shift back)
 AUDIO_TITLE="French"
