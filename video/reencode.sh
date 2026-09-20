@@ -6,9 +6,18 @@
 
 set -euo pipefail
 
-INPUT="$1"
+AUDIO_ONLY=false
+POSITIONAL=()
+for arg in "$@"; do
+    case "$arg" in
+        --audio-only) AUDIO_ONLY=true ;;
+        *) POSITIONAL+=("$arg") ;;
+    esac
+done
+
+INPUT="${POSITIONAL[0]}"
 DEFAULT_OUTPUT="reencoded/$(basename "$INPUT")"
-OUTPUT=${2:-"${DEFAULT_OUTPUT}"}
+OUTPUT=${POSITIONAL[1]:-"${DEFAULT_OUTPUT}"}
 
 mkdir -p reencoded
 
@@ -37,7 +46,24 @@ VF+=",tonemap=tonemap=mobius:param=0.3:desat=0"
 VF+=",zscale=t=bt709:m=bt709:r=tv:d=error_diffusion"
 VF+=",format=yuv420p,setsar=1"
 
-echo "Converting [$CODEC ${SW}x${SH} ($TRC)] -> [h.264 ${W}x${H} (bt709)] "
+
+VIDEO_OPTS=()
+if [[ "$AUDIO_ONLY" == true ]]; then
+    echo "Audio-only mode — copying video [$CODEC ${SW}x${SH}]"
+    VIDEO_OPTS+=(-c:v copy)
+else
+    echo "Converting [$CODEC ${SW}x${SH} ($TRC)] -> [h.264 ${W}x${H} (bt709)]"
+    VIDEO_OPTS+=(
+        -c:v h264
+        -preset fast -crf 22
+        -pix_fmt:v:0 yuv420p
+        -color_primaries bt709
+        -color_trc bt709
+        -colorspace bt709
+        -color_range tv
+        -filter:v:0 "$VF"
+    )
+fi
 
 set -x
 ffmpeg -i "$INPUT"          \
@@ -45,16 +71,8 @@ ffmpeg -i "$INPUT"          \
     -map 0:a                \
     -map 0:s?               \
     -map_metadata 0         \
-    -c:v copy               \
-    -c:v:0 libx264          \
-    -preset fast -crf 22    \
-    -pix_fmt:v:0 yuv420p    \
-    -color_primaries bt709  \
-    -color_trc bt709        \
-    -colorspace bt709       \
-    -color_range tv         \
-    -filter:v:0 "$VF"       \
-    -c:a copy               \
+    "${VIDEO_OPTS[@]}"      \
+    -c:a aac -b:a 256k      \
     -c:s copy               \
     "$OUTPUT"
 
