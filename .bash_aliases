@@ -24,4 +24,10 @@ alias gkb='git checkout -b'
 alias grh='git reset --hard'
 alias gkb='git checkout -b'
 alias grm1='git reset HEAD~1'
+alias git-prune-local-branches='git fetch --all -p; git branch -vv | grep ": gone]" | awk "{ print \$1 }" | Xargs -n 1 git branch -D'
 alias git-recent-branches='git for-each-ref --sort=-committerdate refs/heads/ | sed -r "s/[0-9a-f]+\s*commit\s*refs\/heads\///" | less'
+alias grb='git-recent-branches'
+function gkrb(){
+    branch=$(git-recent-branches | fzf)
+    [ ! -z "$branch" ] && git checkout "$branch"
+}
