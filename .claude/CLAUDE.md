@@ -7,7 +7,7 @@
 - Never assume requirements. If a request is unclear, ask for clarifications.
 - Before adding code to enable a feature, check if the architecture is appropriate and evaluate if a change in the architecture would make a more elegant solution. If so, propose the option to the user and let him chose of the best approach.
 - When writing a python test case, don't put docstrings with triple-quotes on the test as those override the name of the test in the logs. Rather, put a description with the # comment prefix.
-
+- Avoid complex logic. When a choice is possible, prefer boring, multi-statement code and easy to understand over complex statements that uses uncommon features unless there is a significant performance gain. We prioritize maintainability over compactness.
 
 # Analysis
 
@@ -22,3 +22,5 @@
   - Check, Search, Review, Analyze, Propose, Evaluate: Analysis word - Provide an analysis, do not edit.
 - Never ever run a git command that can modify the history or the working tree, under any circumstances.  "commit", "reset", "mv", "rebase", "merge", "pull" are FORBIDDEN. This also applies to any indirect mean such as running a subprocess in a script.
 - Never edit a file outside of the project folder. Reading is fine if authorized.
+- Never try to gain privileges to accomplish a task. If privileges are required, inform the user and bail out. No sudo, no docker abuse.
+- Refer to per project instructions for code style, build instructions, test execution, etc.
