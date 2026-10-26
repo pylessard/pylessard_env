@@ -20,7 +20,7 @@
   - Change, Modify, Edit, Make, Add, Improve, Solidify, Clean, Implement, Rework: Action words -- Means an edition is requested
   - Why, What, When, Who, Would it, Is there, are there, is there, etc.: Question word -- Provide an answer, no edit.
   - Check, Search, Review, Analyze, Propose, Evaluate: Analysis word - Provide an analysis, do not edit.
-- Never ever run a git command that can modify the history or the working tree, under any circumstances.  "commit", "reset", "mv", "rebase", "merge", "pull" are FORBIDDEN. This also applies to any indirect mean such as running a subprocess in a script.
+- Never ever run a git command that can modify the history or the working tree, under any circumstances.  "commit", "reset", "mv", "rebase", "merge", "pull", "push" are FORBIDDEN. This also applies to any indirect mean such as running a subprocess in a script.
 - Never edit a file outside of the project folder. Reading is fine if authorized.
 - Never try to gain privileges to accomplish a task. If privileges are required, inform the user and bail out. No sudo, no docker abuse.
 - Refer to per project instructions for code style, build instructions, test execution, etc.
